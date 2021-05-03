@@ -2,13 +2,19 @@ const { Server } = require("net");
 
 const server = new Server();
 
+const END = "END";
+
 server.on("connection", (socket) => {
-  console.log(
-    `New connection from ${socket.remoteAddress}:${socket.remotePort}`
-  );
+  const remoteSocket = `${socket.remoteAddress}:${socket.remotePort}`;
+  console.log(`New connection from ${remoteSocket}`);
   socket.setEncoding("utf-8");
-  socket.on("data", (data) => {
-    socket.write(data);
+  socket.on("data", (message) => {
+    if (message === END) {
+      console.log(`Connection with ${remoteSocket} closed`);
+      socket.end();
+    } else {
+      console.log(`${remoteSocket} -> ${message}`);
+    }
   });
 });
 
