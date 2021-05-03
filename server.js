@@ -6,6 +6,7 @@ server.on("connection", (socket) => {
   console.log(
     `New connection from ${socket.remoteAddress}:${socket.remotePort}`
   );
+  socket.setEncoding("utf-8");
   socket.on("data", (data) => {
     console.log(data);
   });
